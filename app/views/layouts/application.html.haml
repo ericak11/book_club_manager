@@ -7,4 +7,19 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
+    = render "layouts/header"
+    %div#flash
+      - flash.each do |key, value|
+        %div#flash_ #{h value}
+
     = yield
+:javascript
+  $(document).ready(function() {
+    $('.datetimepicker3').datetimepicker({
+      format: 'LT',
+      stepping: 15
+    });
+    $('.datetimepicker4').datetimepicker({
+      format: 'YYYY-MM-DD'
+    });
+  })

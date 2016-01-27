@@ -1,7 +1,7 @@
 <div id="clearance" class="sign-up">
   <h2><%= t(".title") %></h2>
 
-  <%= form_for @user do |form| %>
+  <%= bootstrap_form_for @user, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-4"  do |form| %>
     <%= render partial: '/users/form', object: form %>
 
     <div class="submit-field">

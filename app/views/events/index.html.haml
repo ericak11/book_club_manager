@@ -1,0 +1,19 @@
+%h1 Book Club
+%table.table.table-hover.table-responsive
+  %thead
+    %th{width: "30%"} Book
+    %th{width: "30%"} Date
+    %th Actions
+  %tbody
+    - @events.each do |event|
+      %tr
+        %td= event.book.present? ? event.book.title : "TBD"
+        %td= Date.parse(event.date).strftime("%A %b %d, %Y")
+        %td= link_to 'Show', event
+        %td= link_to 'RSVP', new_event_response_path(event)
+        %td= link_to 'Edit', edit_event_path(event)
+        %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Event', new_event_path

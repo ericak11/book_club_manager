@@ -1,0 +1,26 @@
+= bootstrap_form_for @event, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-6" do |f|
+  - if @event.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@event.errors.count, "error")} prohibited this event from being saved:"
+      %ul
+        - @event.errors.full_messages.each do |msg|
+          %li= msg
+  = f.text_field :date, class: 'datetimepicker4'
+  = f.text_field :time, class: 'datetimepicker3'
+  = f.text_field :location
+  = f.text_field :map
+  = f.text_field :notes
+  %h3 Book
+  = f.fields_for @book do |b|
+    = b.text_field :title
+    = b.text_field :link
+    = b.text_field :description
+    = b.text_field :author
+    = b.text_field :image
+    = b.text_field :publish_date, class: 'datetimepicker4'
+  %h3 Hosts
+  = f.fields_for @partner do |p|
+    = p.text_field :id
+
+  = f.submit 'Save'
+
