@@ -1,12 +1,12 @@
-= bootstrap_form_for @partner, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-4" do |f|
+= bootstrap_form_for @partner, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-2" do |f|
   - if @partner.errors.any?
     #error_explanation
       %h2= "#{pluralize(@partner.errors.count, "error")} prohibited this partner from being saved:"
       %ul
         - @partner.errors.full_messages.each do |msg|
           %li= msg
-  = f.select :host_id, User.all.collect(&:first_name)
-  = f.select :cohost_id, User.all.collect(&:first_name)
-  = f.text_field :rank
+  = f.select :host_id, User.has_no_partner.collect {|u| [ u.full_name, u.id ] }
+  = f.select :cohost_id, User.has_no_partner.collect {|u| [ u.full_name, u.id ] }
+  = f.select :rank, Partner.get_weeks
   .actions
     = f.submit 'Save'

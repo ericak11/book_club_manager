@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: partners
+#
+#  id        :integer          not null, primary key
+#  host_id   :integer
+#  cohost_id :integer
+#  rank      :integer
+#
+
 class PartnersController < ApplicationController
   before_action :set_partner, only: [:show, :edit, :update, :destroy]
 
@@ -25,7 +35,7 @@ class PartnersController < ApplicationController
   # POST /partners.json
   def create
     @partner = Partner.new(partner_params)
-
+    binding.pry
     respond_to do |format|
       if @partner.save
         format.html { redirect_to @partner, notice: 'Partner was successfully created.' }
@@ -69,6 +79,6 @@ class PartnersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def partner_params
-      params[:partner]
+      params[:partner].permit(:host_id, :cohost_id, :rank)
     end
 end

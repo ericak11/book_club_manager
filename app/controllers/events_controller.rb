@@ -1,6 +1,22 @@
+# == Schema Information
+#
+# Table name: events
+#
+#  id         :integer          not null, primary key
+#  date       :string
+#  time       :string
+#  location   :string
+#  map        :string
+#  partner_id :integer
+#  book_id    :integer
+#  notes      :string
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class EventsController < ApplicationController
   before_action :set_event, only: [:show, :edit, :update, :destroy]
-
+  before_action :set_book, only: [:show, :edit, :update, :destroy]
   # GET /events
   # GET /events.json
   def index
@@ -26,11 +42,11 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    binding.pry
-    @event = Event.new(event_params)
+    get_event_params
+    @event = Event.new(@event_params)
 
     respond_to do |format|
-      if @event.save
+      if add_book  && @event.update(@event_params)
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else
@@ -44,7 +60,8 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1.json
   def update
     respond_to do |format|
-      if @event.update(event_params)
+      get_event_params
+      if add_book && @event.update(@event_params)
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -69,9 +86,20 @@ class EventsController < ApplicationController
     def set_event
       @event = Event.find(params[:id])
     end
-
+    def set_book
+      @book = @event.book || Book.new
+    end
     # Never trust parameters from the scary internet, only allow the white list through.
-    def event_params
-      params[:event]
+    def get_event_params
+      @event_params = params[:event].permit(:date, :time, :location, :notes, :partner_id)
+      @book_params = params[:event].require(:book).permit(:title, :link, :description, :author, :image, :publish_date)
+    end
+    def add_book
+      unless @book_params.delete_if {|k,v| v.empty?}.empty?
+        @book ||= Book.new()
+        response = @book.update(@book_params)
+        @event_params.merge!({book_id: @book.id}) if @book.present?
+      end
+      response.nil? ? true : response
     end
 end

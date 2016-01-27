@@ -1,4 +1,4 @@
-= bootstrap_form_for @event, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-6" do |f|
+= bootstrap_form_for @event  , layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-6" do |f|
   - if @event.errors.any?
     #error_explanation
       %h2= "#{pluralize(@event.errors.count, "error")} prohibited this event from being saved:"
@@ -19,8 +19,7 @@
     = b.text_field :image
     = b.text_field :publish_date, class: 'datetimepicker4'
   %h3 Hosts
-  = f.fields_for @partner do |p|
-    = p.text_field :id
+  = f.select :partner_id, Partner.all.collect {|p| [ p.pretty_print_partners, p.id ] }
 
   = f.submit 'Save'
 

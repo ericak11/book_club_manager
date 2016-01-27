@@ -2,3 +2,11 @@
 @import "bootstrap";
 @import "bootstrap-datetimepicker";
 @import "rails_bootstrap_forms";
+
+label.required:after {
+    content:" *";
+}
+
+.required {
+  color: red;
+}
