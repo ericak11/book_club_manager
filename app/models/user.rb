@@ -28,4 +28,7 @@ class User < ActiveRecord::Base
   def full_name
     "#{self.first_name} #{self.last_name}"
   end
+  def partner_id
+    Partner.where('host_id=? OR cohost_id=?', self.id, self.id).first.try(:id)
+  end
 end

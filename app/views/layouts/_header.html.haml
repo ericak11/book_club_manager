@@ -1,10 +1,13 @@
-%div#header
-  - if current_user.present? && current_user.admin?
-    = link_to "Add Partners", new_partner_path
-
-
+= navbar fixed: :top, container: 'fluid' do
+  = navbar_header brand: 'Book Club Manager', brand_link: '/' do
+    = image_tag 'favicon.ico', class: 'img img-circle img-responsive', style: 'height:30px;margin-top:8px;'
   - if signed_in?
-    =link_to t(".sign_out"), sign_out_path, method: :delete
-  - else
-    =link_to t(".sign_in"), sign_in_path
-
+    = navbar_collapse do
+      = navbar_group class: 'foo', id: 'menu' do
+        - if current_user.partner_id || current_user.admin?
+          = navbar_item "Add Event",  new_event_path
+        - if current_user.present? && current_user.admin?
+          = navbar_group class: 'foo', id: 'menu' do
+            = navbar_item "Add Partners", new_partner_path
+      = navbar_group align: 'right' do
+        = link_to t(".sign_out"), sign_out_path, method: :delete, class: "btn btn-danger"

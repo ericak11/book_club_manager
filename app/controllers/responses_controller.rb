@@ -39,10 +39,9 @@ class ResponsesController < ApplicationController
   # POST /responses.json
   def create
     @response = Response.new(response_params)
-    binding.pry
     respond_to do |format|
       if @response.save
-        format.html { redirect_to @response, notice: 'Response was successfully created.' }
+        format.html { redirect_to @event, notice: 'Response was successfully created.' }
         format.json { render :show, status: :created, location: @response }
       else
         format.html { render :new }
@@ -56,7 +55,7 @@ class ResponsesController < ApplicationController
   def update
     respond_to do |format|
       if @response.update(response_params)
-        format.html { redirect_to @response, notice: 'Response was successfully updated.' }
+        format.html { redirect_to @event, notice: 'Response was successfully updated.' }
         format.json { render :show, status: :ok, location: @response }
       else
         format.html { render :edit }

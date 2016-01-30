@@ -1,10 +1,10 @@
-<div id="clearance" class="password-reset">
+<div id="clearance" class="password-reset col-sm-6">
   <h2><%= t(".title") %></h2>
 
   <p><%= t(".description") %></p>
 
-  <%= bootstrap_form_for :password, url: passwords_path, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-4"  do |form| %>
+  <%= bootstrap_form_for :password, url: passwords_path, layout: :horizontal, label_col: "col-sm-4", control_col: "col-sm-7"  do |form| %>
       <%= form.text_field :email, type: 'email' %>
-      <%= form.submit %>
+      <%= form.submit class: "float-right btn btn-danger" %>
   <% end %>
 </div>

@@ -23,5 +23,7 @@ class Event < ActiveRecord::Base
   accepts_nested_attributes_for :book
 
   validates :date, :time, :partner, :presence => true
-
+  def my_event?(partner_id)
+    self.partner_id == partner_id
+  end
 end

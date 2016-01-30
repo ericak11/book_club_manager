@@ -8,11 +8,12 @@
     = csrf_meta_tags
   %body
     = render "layouts/header"
-    %div#flash
-      - flash.each do |key, value|
-        %div#flash_ #{h value}
+    %div#content{style: "margin:70px;"}
+      %div#flash
+        - flash.each do |key, value|
+          %div#flash_ #{h value}
 
-    = yield
+      = yield
 :javascript
   $(document).ready(function() {
     $('.datetimepicker3').datetimepicker({

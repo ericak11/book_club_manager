@@ -1,12 +1,13 @@
-<%= bootstrap_form_for :session, url: session_path, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-4"  do |form| %>
+<%= bootstrap_form_for :session, url: session_path, layout: :horizontal, label_col: "col-sm-4", control_col: "col-sm-7"  do |form| %>
     <%= form.text_field :email, type: 'email' %>
     <%= form.password_field :password %>
-    <%= form.submit %>
-
-  <div class="other-links">
+    <%= form.submit class: "float-right btn btn-success"  %>
+  <br>
+  <br>
+  <div class="other-links float-right">
     <% if Clearance.configuration.allow_sign_up? %>
-      <%= link_to t(".sign_up"), sign_up_path %>
+      <%= link_to t(".sign_up"), sign_up_path, class: "btn btn-info" %>
     <% end %>
-    <%= link_to t(".forgot_password"), new_password_path %>
+    <%= link_to t(".forgot_password"), new_password_path, class: "btn btn-danger" %>
   </div>
 <% end %>

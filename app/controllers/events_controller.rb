@@ -44,7 +44,10 @@ class EventsController < ApplicationController
   def create
     get_event_params
     @event = Event.new(@event_params)
-
+    if params[:event][:location].present?
+      location = params[:event][:location].gsub(" ", "+")+"+NY+NY"
+      @event_params.merge!({map: "https://www.google.com/maps/embed/v1/place?key=#{ENV['GOOGLE_API_KEY']}&q=#{location}"})
+    end
     respond_to do |format|
       if add_book  && @event.update(@event_params)
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
@@ -61,6 +64,10 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       get_event_params
+      if params[:event][:location].present?
+        location = params[:event][:location].gsub(" ", "+")+"+NY+NY"
+        @event_params.merge!({map: "https://www.google.com/maps/embed/v1/place?key=#{ENV['GOOGLE_API_KEY']}&q=#{location}"})
+      end
       if add_book && @event.update(@event_params)
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
