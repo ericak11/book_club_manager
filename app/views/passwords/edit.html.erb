@@ -7,6 +7,6 @@
         url: user_password_path(@user, token: @user.confirmation_token),
         html: { method: :put }, layout: :horizontal, label_col: "col-sm-2", control_col: "col-sm-4"  do |form| %>
       <%= form.password_field :password %>
-      <%= form.submit %>
+      <%= form.submit class: "btn btn-success" %>
   <% end %>
 </div>

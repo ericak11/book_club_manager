@@ -1,6 +1,10 @@
 = navbar fixed: :top, container: 'fluid' do
-  = navbar_header brand: 'Book Club Manager', brand_link: '/' do
-    = image_tag 'favicon.ico', class: 'img img-circle img-responsive', style: 'height:30px;margin-top:8px;'
+  - if current_user.present?
+    = navbar_header brand: "#{current_user.first_name}'s Book Club Manager", brand_link: '/' do
+      = image_tag 'favicon.ico', class: 'img img-circle img-responsive', style: 'height:30px;margin-top:8px;'
+  -else
+    = navbar_header brand: 'Book Club Manager', brand_link: '/' do
+      = image_tag 'favicon.ico', class: 'img img-circle img-responsive', style: 'height:30px;margin-top:8px;'
   - if signed_in?
     = navbar_collapse do
       = navbar_group class: 'foo', id: 'menu' do
