@@ -20,6 +20,9 @@ class Partner < ActiveRecord::Base
   def pretty_print_partners
     "#{self.host.full_name} & #{self.cohost.full_name}"
   end
+  def pretty_print_first_names
+    "#{self.host.first_name} & #{self.cohost.first_name}"
+  end
   def ids
     [self.host_id, self.cohost_id]
   end
