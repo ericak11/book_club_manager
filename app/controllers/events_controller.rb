@@ -50,6 +50,7 @@ class EventsController < ApplicationController
     end
     respond_to do |format|
       if add_book  && @event.update(@event_params)
+        EventNotifier.send_new_event_email(@event,current_user).deliver_now
         format.html { redirect_to @event, notice: 'Event was successfully created.' }
         format.json { render :show, status: :created, location: @event }
       else

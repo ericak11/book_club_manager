@@ -3,3 +3,9 @@
   <%= form.text_field :email, type: 'email' %>
   <%= form.password_field :password %>
   <%= form.password_field :password_confirmation %>
+  <% if params[:action] == 'edit' %>
+    <div class="control-label big-check-box" style="font-size:20px;">
+      <%= form.check_box :member%>
+      <%= form.check_box :admin %>
+    </div>
+  <% end %>

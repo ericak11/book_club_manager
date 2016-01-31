@@ -13,5 +13,7 @@
         - if current_user.present? && current_user.admin?
           = navbar_group class: 'foo', id: 'menu' do
             = navbar_item "Add Partners", new_partner_path
+          = navbar_group class: 'foo', id: 'menu' do
+            = navbar_item "User Panel", users_path
       = navbar_group align: 'right' do
         = link_to t(".sign_out"), sign_out_path, method: :delete, class: "sign-out btn btn-danger"

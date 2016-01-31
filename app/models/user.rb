@@ -21,9 +21,10 @@ class User < ActiveRecord::Base
   has_many :reviews
 
   validates :first_name, :last_name, :email, :presence => true
+  scope :members, -> { where(member: true) }
   def self.has_no_partner
     ids = (Partner.all.collect(&:host_id) + Partner.all.collect(&:cohost_id)).uniq
-    User.where.not(id: ids)
+    User.members.where.not(id: ids)
   end
   def full_name
     "#{self.first_name} #{self.last_name}"

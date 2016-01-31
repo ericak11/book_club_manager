@@ -55,5 +55,5 @@
         %td.success= @event.responses.where(status: "Yes!").count
         %td.danger= @event.responses.where(status: "No.").count
         %td.warning= @event.responses.where(status: "Maybe?").count
-        %td.info= User.all.count - @event.responses.count
+        %td.info= User.members.count - @event.responses.count
 

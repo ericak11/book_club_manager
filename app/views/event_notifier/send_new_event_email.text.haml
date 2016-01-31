@@ -1,0 +1,13 @@
+Please Join
+= @event.partner.pretty_print_first_name
+on #{ Date.parse(@event.date).strftime("%A %b %d, %Y")} @ #{Time.parse(@event.time).strftime("%I:%M %p")}
+for Book Club!
+
+- if @event.book.present?
+  - @book = @event.book
+  We will be reading #{@book.title} by #{@book.author}
+  = "link: "+@book.link if @book.link.present?
+  = "Published: "+Date.parse(@book.publish_date).strftime("%A %b %d, %Y") if @book.publish_date.present?
+  = "Description: "+ @book.description if @book.description.present?
+
+= link_to 'Click to RSVP', new_event_response_url(@event)

@@ -7,4 +7,9 @@ class ApplicationController < ActionController::Base
   def current_admin?
     current_user.admin?
   end
+  def is_admin
+    unless current_admin?
+      deny_access(I18n.t("flashes.failure_when_not_signed_in"))
+    end
+  end
 end
