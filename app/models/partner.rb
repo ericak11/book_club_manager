@@ -14,6 +14,8 @@ class Partner < ActiveRecord::Base
   validates :rank, :presence => true
   validates_uniqueness_of :cohost_id , :scope => :host_id
 
+  default_scope { order('rank ASC') }
+
   def self.get_weeks
     (1..8).to_a - Partner.all.collect(&:rank)
   end
@@ -25,5 +27,9 @@ class Partner < ActiveRecord::Base
   end
   def ids
     [self.host_id, self.cohost_id]
+  end
+  def self.up_next
+    p = Partner.find(Event.next_event.partner_id)
+    Partner.find_by_rank(p.rank + 1).present? ?  Partner.find_by_rank(p.rank + 1) : Partner.find_by_rank(1)
   end
 end

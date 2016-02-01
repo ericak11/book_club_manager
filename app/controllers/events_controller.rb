@@ -20,7 +20,13 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    if params[:see_all]
+      @events = Event.all
+      @all = true
+    else
+      @events = Event.future
+    end
+      @partners = Partner.all
   end
 
   # GET /events/1

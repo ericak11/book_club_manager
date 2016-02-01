@@ -1,4 +1,4 @@
-%h3 Please Join #{@event.partner.pretty_print_first_names} on #{ Date.parse(@event.date).strftime("%A %b %d, %Y")} @ #{Time.parse(@event.time).strftime("%I:%M %p")}for Book Club!
+%h3 Please Join #{@event.partner.pretty_print_first_names} on #{ Date.parse(@event.date).strftime("%A %b %d, %Y")} @ #{Time.parse(@event.time).strftime("%I:%M %p")} for Book Club!
 
 - if @event.book.present?
   - @book = @event.book

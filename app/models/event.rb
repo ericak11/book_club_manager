@@ -21,8 +21,11 @@ class Event < ActiveRecord::Base
   has_many :wines
   has_many :recipes
   accepts_nested_attributes_for :book
-
+  scope :future, -> { where('date >= ?', Date.today).order(:date) }
   validates :date, :time, :partner, :presence => true
+  def self.next_event
+    Event.where('date >= ?', Date.today).order(:date).first
+  end
   def my_event?(partner_id)
     self.partner_id == partner_id
   end
