@@ -1,7 +1,6 @@
 %h3 Don't Forget! Book Club is on #{ Date.parse(@event.date).strftime("%A %b %d, %Y")} @ #{Time.parse(@event.time).strftime("%I:%M %p")}!
 %h4= "LOCATION:" + @event.location if @event.location.present
-- if @event.map.present?
-  %a(title='location' href=@event.map) See On Map
-
+= link_to 'See More Info', event_url(@event)
+%br
 %h4 If you have not already done so, please RSVP ASAP!
 = link_to 'Click to RSVP', new_event_response_url(@event), class: "btn btn-info"

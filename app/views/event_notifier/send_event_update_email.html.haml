@@ -9,7 +9,10 @@
   -else
     - value_1 = v[0]
     - value_2 = v[1]
-  %h4="The "+k.titleize+" of book club has been changed from "+value_1+" to "+value_2
+  %h4="The "+k.titleize+" of book club has been changed from "+value_1+" to "+value_2 unless k == 'map'
+
+= link_to 'See More Info', event_url(@event)
+
 - if @event.book.present?
   - @book = @event.book
   %p We will be reading #{@book.title} by #{@book.author}
