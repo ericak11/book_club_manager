@@ -53,6 +53,7 @@ Rails.application.routes.draw do
   resources :users, controller: :users, only: [:create, :index, :update, :edit, :destroy]
   # Example resource route (maps HTTP verbs to controller actions automatically):
     resources :events do
+      get 'send_event_email', on: :member
       resources :responses
     end
     resources :partners

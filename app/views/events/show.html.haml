@@ -14,7 +14,8 @@
       %iframe{:allowfullscreen => "", :frameborder => "0", :height => "250", :src => "#{@event.map}", :style => "border:0", :width => "450"}
     - if @event.my_event?(current_user.partner_id)
       %br
-      = link_to 'Edit Event', edit_event_path(@event), class: "btn btn-success"
+      = link_to 'Edit Event', edit_event_path(@event), class: "btn btn-success" unless Date.parse(@event.date).past?
+      = link_to 'Send Reminder Email', send_event_email_event_path(@event), class: "btn btn-info" unless Date.parse(@event.date).past?
 - if @event.book.present?
   %h3 Book information
   %hr

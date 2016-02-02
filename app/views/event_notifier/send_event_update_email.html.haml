@@ -1,0 +1,20 @@
+%h3 Book Club information has been updated!
+- @info.each do |k,v|
+  - if k == 'date'
+    - value_1 = Date.parse(v[0]).strftime("%A %b %d, %Y")
+    - value_2 = Date.parse(v[1]).strftime("%A %b %d, %Y")
+  - elsif k == 'time'
+    - value_1 = Time.parse(v[0]).strftime("%I:%M %p")}
+    - value_2 = Time.parse(v[1]).strftime("%I:%M %p")}
+  -else
+    - value_1 = v[0]
+    - value_2 = v[1]
+  %h4="The "+k.titleize+" of book club has been changed from "+value_1+" to "+value_2
+- if @event.book.present?
+  - @book = @event.book
+  %p We will be reading #{@book.title} by #{@book.author}
+  %p= "link: "+@book.link if @book.link.present?
+  %p= "Published: "+Date.parse(@book.publish_date).strftime("%A %b %d, %Y") if @book.publish_date.present?
+  %p= "Description: "+ @book.description if @book.description.present?
+
+= link_to 'Click to RSVP', new_event_response_url(@event), class: "btn btn-info"

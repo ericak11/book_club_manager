@@ -15,7 +15,7 @@
 #
 
 class EventsController < ApplicationController
-  before_action :set_event, only: [:show, :edit, :update, :destroy]
+  before_action :set_event, only: [:show, :edit, :update, :destroy, :send_event_email]
   before_action :set_book, only: [:show, :edit, :update, :destroy]
   # GET /events
   # GET /events.json
@@ -76,6 +76,7 @@ class EventsController < ApplicationController
         @event_params.merge!({map: "https://www.google.com/maps/embed/v1/place?key=#{ENV['GOOGLE_API_KEY']}&q=#{location}"})
       end
       if add_book && @event.update(@event_params)
+        EventNotifier.send_book_added_email(@event, current_user) if @send_new_book_email
         format.html { redirect_to @event, notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
       else
@@ -94,7 +95,9 @@ class EventsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  def send_event_email
+    EventNotifier.send_event_reminder_email(@event,current_user).deliver_now
+  end
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_event
@@ -110,6 +113,7 @@ class EventsController < ApplicationController
     end
     def add_book
       unless @book_params.delete_if {|k,v| v.empty?}.empty?
+        @send_new_book_email = !@book.id?
         @book ||= Book.new()
         response = @book.update(@book_params)
         @event_params.merge!({book_id: @book.id}) if @book.present?
