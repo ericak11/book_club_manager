@@ -97,6 +97,7 @@ class EventsController < ApplicationController
   end
   def send_event_email
     EventNotifier.send_event_reminder_email(@event,current_user).deliver_now
+    redirect_to action: "show", id: @event.id
   end
   private
     # Use callbacks to share common setup or constraints between actions.
