@@ -1,5 +1,5 @@
 Don't Forget! Book Club is on #{ Date.parse(@event.date).strftime("%A %b %d, %Y")} @ #{Time.parse(@event.time).strftime("%I:%M %p")}!
-= "LOCATION:" + @event.location if @event.location.present
+= "LOCATION:" + @event.location if @event.location.present?
 = link_to 'See More Info', event_url(@event)
 
 If you have not already done so, please RSVP ASAP!
