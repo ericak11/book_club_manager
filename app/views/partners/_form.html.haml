@@ -6,8 +6,10 @@
         %ul
           - @partner.errors.full_messages.each do |msg|
             %li= msg
-    = f.select :host_id, User.has_no_partner.collect {|u| [ u.full_name, u.id ] }
-    = f.select :cohost_id, User.has_no_partner.collect {|u| [ u.full_name, u.id ] }
-    = f.select :rank, Partner.get_weeks
+    - partners = params[:action] == 'edit' ? User.members.collect {|u| [ u.full_name, u.id ] }: User.has_no_partner.collect {|u| [ u.full_name, u.id ] }
+
+    = f.select :host_id, partners
+    = f.select :cohost_id, partners
+    = f.select :rank, params[:action] == 'edit' ? Partner.get_weeks + [@partner.rank] : Partner.get_weeks
     .actions.float-right
       = f.submit 'Save', class: "btn btn-success btn-lg"
