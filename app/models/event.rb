@@ -26,7 +26,7 @@ class Event < ActiveRecord::Base
   after_update :check_for_email_send
 
   def self.next_event
-    Event.where('date >= ?', Date.today).order(:date).first
+    Event.where('date <= ?', Date.today).order(:date).last
   end
   def my_event?(partner_id)
     self.partner_id == partner_id
