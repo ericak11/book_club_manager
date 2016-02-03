@@ -34,6 +34,7 @@ class Event < ActiveRecord::Base
   def check_for_email_send
     changes = self.changes
     changes.delete("updated_at")
+    changes.delete("partner_id")
     EventNotifier.send_event_update_email(self, changes).deliver_now unless changes.empty?
   end
 end
