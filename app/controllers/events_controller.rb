@@ -114,8 +114,8 @@ class EventsController < ApplicationController
     end
     def add_book
       unless @book_params.delete_if {|k,v| v.empty?}.empty?
-        @send_new_book_email = !@book.id?
         @book ||= Book.new()
+        @send_new_book_email = !@book.id?
         response = @book.update(@book_params)
         @event_params.merge!({book_id: @book.id}) if @book.present?
       end
