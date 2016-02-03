@@ -23,19 +23,18 @@
               %td= link_to 'Edit Event', edit_event_path(event), class: "btn btn-success btn-sm"
               %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-danger btn-sm"
 
-- if @events.present?
-  %div.col-md-3
-    %h2 Book Club Order
-    %table.table.table-hover.table-responsive
-      %thead
-        %th Partners
-        %th Up Next?
-      %tbody.table-bordered
+%div.col-md-3
+  %h2 Book Club Order
+  %table.table.table-hover.table-responsive
+    %thead
+      %th Partners
+      %th Up Next?
+    %tbody.table-bordered
 
-        - @partners.each do |partner|
-          %tr
-            %td= partner.pretty_print_first_names
-            %td{style:'text-align:center;'}
-              - if partner == Partner.up_next
-                %span.glyphicon.glyphicon-ok{style:'color:green;'}
+      - @partners.each do |partner|
+        %tr
+          %td= partner.pretty_print_first_names
+          %td{style:'text-align:center;'}
+            - if partner == Partner.up_next
+              %span.glyphicon.glyphicon-ok{style:'color:green;'}
 
