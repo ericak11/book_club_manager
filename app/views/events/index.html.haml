@@ -8,32 +8,34 @@
       %th{width: "30%"} Book
       %th{width: "30%"} Date
       %th Actions
-    %tbody
-      - @events.each do |event|
-        %tr
-          %td= event.book.present? ? event.book.title : "TBD"
-          %td #{Date.parse(event.date).strftime("%A %b %d, %Y")} @ #{Time.parse(event.time).strftime("%I:%M %p")}
-          %td= link_to 'Details', event, class: "btn btn-info btn-sm"
-          - if event.responses.collect(&:user_id).include?(current_user.id) && Date.parse(event.date).future?
-            %td= link_to 'Edit RSVP', edit_event_response_path(event.id, event.responses.find_by_user_id(current_user.id).id), class: "btn btn-warning btn-sm"
-          - elsif current_user.member? && Date.parse(event.date).future?
-            %td= link_to 'RSVP', new_event_response_path(event), class: "btn btn-warning btn-sm"
-          - if event.partner_id == current_user.partner_id || current_user.admin?
-            %td= link_to 'Edit Event', edit_event_path(event), class: "btn btn-success btn-sm"
-            %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-danger btn-sm"
+    - if @events.present?
+      %tbody
+        - @events.each do |event|
+          %tr
+            %td= event.book.present? ? event.book.title : "TBD"
+            %td #{Date.parse(event.date).strftime("%A %b %d, %Y")} @ #{Time.parse(event.time).strftime("%I:%M %p")}
+            %td= link_to 'Details', event, class: "btn btn-info btn-sm"
+            - if event.responses.collect(&:user_id).include?(current_user.id) && Date.parse(event.date).future?
+              %td= link_to 'Edit RSVP', edit_event_response_path(event.id, event.responses.find_by_user_id(current_user.id).id), class: "btn btn-warning btn-sm"
+            - elsif current_user.member? && Date.parse(event.date).future?
+              %td= link_to 'RSVP', new_event_response_path(event), class: "btn btn-warning btn-sm"
+            - if event.partner_id == current_user.partner_id || current_user.admin?
+              %td= link_to 'Edit Event', edit_event_path(event), class: "btn btn-success btn-sm"
+              %td= link_to 'Destroy', event, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-danger btn-sm"
 
-%div.col-md-3
-  %h2 Book Club Order
-  %table.table.table-hover.table-responsive
-    %thead
-      %th Partners
-      %th Up Next?
-    %tbody.table-bordered
+- if @events.present?
+  %div.col-md-3
+    %h2 Book Club Order
+    %table.table.table-hover.table-responsive
+      %thead
+        %th Partners
+        %th Up Next?
+      %tbody.table-bordered
 
-      - @partners.each do |partner|
-        %tr
-          %td= partner.pretty_print_first_names
-          %td{style:'text-align:center;'}
-            - if partner == Partner.up_next
-              %span.glyphicon.glyphicon-ok{style:'color:green;'}
+        - @partners.each do |partner|
+          %tr
+            %td= partner.pretty_print_first_names
+            %td{style:'text-align:center;'}
+              - if partner == Partner.up_next
+                %span.glyphicon.glyphicon-ok{style:'color:green;'}
 
