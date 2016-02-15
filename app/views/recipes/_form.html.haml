@@ -1,0 +1,16 @@
+= bootstrap_form_for @recipe, layout: :horizontal, label_col: "col-sm-4", control_col: "col-sm-7"  do |f|
+  - if @recipe.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@recipe.errors.count, "error")} prohibited this recipe from being saved:"
+      %ul
+        - @recipe.errors.full_messages.each do |msg|
+          %li= msg
+
+  .actions
+    = f.text_field :title, label: 'Name'
+    = f.text_field :description
+    = f.text_field :image, label: "Image Link"
+    = f.text_field :link
+    = hidden_field_tag :event_id, @event.id
+    .float-right
+      = f.submit 'Save', class: "btn btn-success btn-lg"

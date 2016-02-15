@@ -25,6 +25,14 @@
   %p= "Description: "+ @event.book.description if @event.book.description.present?
   - if @event.book.image.present?
     = image_tag(@event.book.image, height:"155px")
+- if @event.recipes.any?
+  - @recipes = @event.recipes
+  %h3 Recipes
+  %hr
+  - if @event.my_event?(current_user.partner_id)
+    = link_to 'Add Recipe', new_recipe_path(event_id:@event.id), class: "btn btn-success"
+  = render "recipes/recipe_table"
+
 %h3 RSVPs
 - unless @event.responses.collect(&:user_id).include?(current_user.id) || Date.parse(@event.date).past?
   = link_to 'Click to RSVP', new_event_response_path(@event), class: "btn btn-info" if current_user.member
