@@ -13,6 +13,7 @@
 
 class Book < ActiveRecord::Base
   has_one :event
-  validates :title, :author, :presence => true
-
+  validates :title, :author, presence: true
+  validates :book_club_date, presence: true, unless: "self.event.present?"
+  paginates_per 10
 end
