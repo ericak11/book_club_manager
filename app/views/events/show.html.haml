@@ -6,55 +6,60 @@
       Date: #{ Date.parse(@event.date).strftime("%A %b %d, %Y")} @ #{Time.parse(@event.time).strftime("%I:%M %p")}
     %h4
       Hosted By: #{@event.partner.pretty_print_partners}
-    %h4
-      Location: #{@event.location}
+    - if current_user.member?
+      %h4
+        Location: #{@event.location}
     - if @event.notes.present?
       %h5= @event.notes
-    - if @event.map.present? && @event.location.present?
-      %iframe{:allowfullscreen => "", :frameborder => "0", :height => "250", :src => "#{@event.map}", :style => "border:0", :width => "450"}
+    - if current_user.member?
+      - if @event.map.present? && @event.location.present?
+        %iframe{:allowfullscreen => "", :frameborder => "0", :height => "250", :src => "#{@event.map}", :style => "border:0", :width => "450"}
     - if @event.my_event?(current_user.partner_id)
       %br
       = link_to 'Edit Event', edit_event_path(@event), class: "btn btn-success" unless Date.parse(@event.date).past?
       = link_to 'Send Reminder Email', send_event_email_event_path(@event), class: "btn btn-info" unless Date.parse(@event.date).past?
 - if @event.book.present?
-  %h3 Book information
-  %hr
-  - if @event.book.link.present?
-    = link_to @event.book.link, @event.book.link, :target => "_blank"
-  %p= "Published: "+Date.parse(@event.book.publish_date).strftime("%A %b %d, %Y") if @event.book.publish_date.present?
-  %p= "Description: "+ @event.book.description if @event.book.description.present?
-  - if @event.book.image.present?
-    = image_tag(@event.book.image, height:"155px")
-%h3 RSVPs
-- unless @event.responses.collect(&:user_id).include?(current_user.id) || Date.parse(@event.date).past?
-  = link_to 'Click to RSVP', new_event_response_path(@event), class: "btn btn-info" if current_user.member
-%hr
-%div.col-md-6
-  %table.table.table-hover.table-responsive
-    %thead
-      %th{width: "30%"} Name
-      %th{width: "30%"} Response
-      %th
-    %tbody
-      - @event.responses.each do |response|
-        %tr
-          %td= response.user.full_name
-          %td #{response.status} #{response.comment}
-          - if response.user_id == current_user.id
-            %td= link_to 'Edit RSVP', edit_event_response_path(@event.id, response.id), class: "btn btn-success btn-xs" unless Date.parse(@event.date).past?
-%div.col-md-2
+  .container
+    %h3 Book information
+    %hr
+    - if @event.book.image.present?
+      = image_tag(@event.book.image, height:"155px", style:'float:left;margin-right:10px;')
+    - if @event.book.link.present?
+      = link_to @event.book.link, @event.book.link, :target => "_blank"
+    %p= "Published: "+Date.parse(@event.book.publish_date).strftime("%A %b %d, %Y") if @event.book.publish_date.present?
+    %p= "Description: "+ @event.book.description if @event.book.description.present?
+.container
+  - if current_user.member?
+    %h3 RSVPs
+    - unless @event.responses.collect(&:user_id).include?(current_user.id) || Date.parse(@event.date).past?
+      = link_to 'Click to RSVP', new_event_response_path(@event), class: "btn btn-info" if current_user.member
+    %hr
+    %div.col-md-6
+      %table.table.table-hover.table-responsive
+        %thead
+          %th{width: "30%"} Name
+          %th{width: "30%"} Response
+          %th
+        %tbody
+          - @event.responses.each do |response|
+            %tr
+              %td= response.user.full_name
+              %td #{response.status} #{response.comment}
+              - if response.user_id == current_user.id
+                %td= link_to 'Edit RSVP', edit_event_response_path(@event.id, response.id), class: "btn btn-success btn-xs" unless Date.parse(@event.date).past?
+    %div.col-md-2
 
-%div.col-md-4
-  %table.table.table-hover.table-responsive.table-bordered
-    %thead
-      %th{width: "25%",style: 'text-align:center;'} Yes
-      %th{width: "25%",style: 'text-align:center;'} No
-      %th{width: "25%",style: 'text-align:center;'} Maybe
-      %th{style: 'text-align:center;'} No response
-    %tbody
-      %tr{style: 'text-align:center;'}
-        %td.success= @event.responses.where(status: "Yes!").count
-        %td.danger= @event.responses.where(status: "No.").count
-        %td.warning= @event.responses.where(status: "Maybe?").count
-        %td.info= User.members.count - @event.responses.count
+    %div.col-md-4
+      %table.table.table-hover.table-responsive.table-bordered
+        %thead
+          %th{width: "25%",style: 'text-align:center;'} Yes
+          %th{width: "25%",style: 'text-align:center;'} No
+          %th{width: "25%",style: 'text-align:center;'} Maybe
+          %th{style: 'text-align:center;'} No response
+        %tbody
+          %tr{style: 'text-align:center;'}
+            %td.success= @event.responses.where(status: "Yes!").count
+            %td.danger= @event.responses.where(status: "No.").count
+            %td.warning= @event.responses.where(status: "Maybe?").count
+            %td.info= User.members.count - @event.responses.count
 
