@@ -97,6 +97,7 @@ class EventsController < ApplicationController
   end
   def send_event_email
     EventNotifier.send_event_reminder_email(@event,current_user).deliver_now
+    flash[:success] = "Your Event Reminder Email was sent"
     redirect_to action: "show", id: @event.id
   end
   private
@@ -116,6 +117,7 @@ class EventsController < ApplicationController
       unless @book_params.delete_if {|k,v| v.empty?}.empty?
         @book ||= Book.new()
         @send_new_book_email = !@book.id?
+        @book_params.merge!({skip_date_validation: true})
         response = @book.update(@book_params)
         @event_params.merge!({book_id: @book.id}) if @book.present?
       end

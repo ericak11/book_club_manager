@@ -21,6 +21,7 @@ class Event < ActiveRecord::Base
   has_many :wines
   has_many :recipes
   accepts_nested_attributes_for :book
+  default_scope { order('date DESC') }
   scope :future, -> { where('date >= ?', Date.today).order(:date) }
   validates :date, :time, :partner, :presence => true
   after_update :check_for_email_send

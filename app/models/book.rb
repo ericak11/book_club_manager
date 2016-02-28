@@ -14,6 +14,7 @@
 class Book < ActiveRecord::Base
   has_one :event
   validates :title, :author, presence: true
-  validates :book_club_date, presence: true, unless: "self.event.present?"
+  validates :book_club_date, presence: true, unless: :skip_date_validation
+  attr_accessor :skip_date_validation
   paginates_per 10
 end
