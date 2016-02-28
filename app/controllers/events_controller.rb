@@ -21,10 +21,10 @@ class EventsController < ApplicationController
   # GET /events.json
   def index
     if params[:see_all]
-      @events = Event.all
+      @events = Event.all.page params[:page]
       @all = true
     else
-      @events = Event.future
+      @events = Event.future.page params[:page]
     end
       @partners = Partner.all
   end

@@ -10,8 +10,7 @@
     = render "layouts/header"
     %div#content{style: "margin:70px;"}
       %div#flash
-        - flash.each do |key, value|
-          %div#flash_ #{h value}
+        = render '/layouts/message'
 
       = yield
 :javascript

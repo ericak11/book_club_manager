@@ -24,6 +24,7 @@ class Event < ActiveRecord::Base
   scope :future, -> { where('date >= ?', Date.today).order(:date) }
   validates :date, :time, :partner, :presence => true
   after_update :check_for_email_send
+  paginates_per 10
 
   def self.next_event
     Event.where('date <= ?', Date.today).order(:date).last

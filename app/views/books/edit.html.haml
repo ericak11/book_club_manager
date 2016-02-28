@@ -1,0 +1,12 @@
+%h1 Editing Book
+= bootstrap_form_for(@book, layout: :horizontal, label_col: "col-sm-4", control_col: "col-sm-7") do |f|
+  = f.alert_message "Please fix the errors below."
+  = f.text_field :title
+  = f.text_field :author
+  = f.text_field :link
+  = f.text_field :description
+  = f.text_field :image
+  = f.text_field :publish_date, class: 'datetimepicker4'
+  = f.text_field :book_club_date, class: 'datetimepicker4'
+  %div.col-md-offset-9
+    = f.submit 'Edit Book', class: 'btn btn-success', id: 'modal-submit-button'
