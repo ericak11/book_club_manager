@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     root 'events#index'
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
-
+  resources :books, only: [:index, :create, :edit, :update]
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
   resources :users, controller: :users, only: [:create, :index, :update, :edit, :destroy]
