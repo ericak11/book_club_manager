@@ -1,0 +1,10 @@
+%p#notice= notice
+%div.jumbotron
+  %div.container{style: 'text-align:center;'}
+    %h2= @recipe.title
+.div{style: 'text-align:center;'}
+  = image_tag(@recipe.image, height:"255px") if @recipe.image.present?
+  %h4= @recipe.description
+  %h4
+    Link:
+    = link_to(@recipe.link, @recipe.link, target: '_blank') if @recipe.link.present?
