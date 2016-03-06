@@ -28,14 +28,15 @@
       = link_to @event.book.link, @event.book.link, :target => "_blank"
     %p= "Published: "+Date.parse(@event.book.publish_date).strftime("%A %b %d, %Y") if @event.book.publish_date.present?
     %p= "Description: "+ @event.book.description if @event.book.description.present?
-- if @event.recipes.any?
-  .container
+  %br
+.container
+  %h3 Recipes
+  - if @event.my_event?(current_user.partner_id)
+    = link_to 'Add Recipe', new_recipe_path(event_id:@event.id), class: "btn btn-success"
+  %hr
+  - if @event.recipes.any? && Date.parse(@event.date).past?
     - @recipes = @event.recipes
-    %h3 Recipes
-    %hr
-    - if @event.my_event?(current_user.partner_id)
-      = link_to 'Add Recipe', new_recipe_path(event_id:@event.id), class: "btn btn-success"
-    = render "recipes/recipe_table"
+    = render "recipes/recipe_table", event_list: true
 .container
   - if current_user.member?
     %h3 RSVPs

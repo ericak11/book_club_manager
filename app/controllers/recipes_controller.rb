@@ -1,15 +1,10 @@
 class RecipesController < ApplicationController
-  before_action :set_recipe, only: [:show, :edit, :update, :destroy]
-  before_action :set_event, only: [:new, :edit, :show, :create]
+  before_action :set_recipe, only: [ :edit, :update, :destroy]
+  before_action :set_event, only: [:new, :edit,  :create, :update]
   # GET /recipes
   # GET /recipes.json
   def index
-    @recipes = Recipe.all
-  end
-
-  # GET /recipes/1
-  # GET /recipes/1.json
-  def show
+    @recipes = Recipe.all.page params[:page]
   end
 
   # GET /recipes/new

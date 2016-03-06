@@ -1,23 +1,31 @@
 %table.table.table-hover.table-responsive
   %thead
     %tr
-      %th{width: "25%"} Book Club Date
-      %th{width: "25%"} Book
-      %th{width: "25%"} Recipe
-      %th Actions
+      - unless (defined? event_list).present?
+        %th Book Club
+      %th Recipe
+      %th Description
+      %th
 
   %tbody
     - @recipes.each do |recipe|
       %tr
-        %td= Date.parse(recipe.event.date).strftime("%A %b %d, %Y")
-        %td= recipe.event.book.title if recipe.event.book.present?
-        - if recipe.link
-          %td= link_to recipe.title,  recipe.link, target: '_blank'
-        -else
+        - unless (defined? event_list).present?
+          %td
+            =link_to("#{Date.parse(recipe.event.date).strftime("%A %b %d, %Y")} #{'- '+recipe.event.book.title if recipe.event.book.present?}", event_path(recipe.event))
+        - if recipe.link.present?
+          %td= link_to(recipe.title, recipe.link, :target => '_blank')
+        - else
           %td= recipe.title
-        %td= link_to 'Details', recipe_path(recipe,event_id: recipe.event.id), class: "btn btn-info btn-sm"
+        %td
+          %span{:style => 'float:left;margin-right:4px;'}= image_tag(recipe.image, height: "100px") if recipe.image.present?
+          = recipe.description
+
         - if recipe.event.my_event?(current_user.partner_id)
-          %td= link_to 'Edit', edit_recipe_path(recipe, event_id: recipe.event.id), class: "btn btn-success btn-sm"
-          %td= link_to 'Destroy', recipe, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-danger btn-sm"
+          %td
+            = link_to 'Edit', edit_recipe_path(recipe, event_id: recipe.event.id), class: "btn btn-success btn-sm"
+            = link_to 'Destroy', recipe, :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-danger btn-sm"
+    - unless (defined? event_list).present?
+      = paginate @recipes
 %br
 

@@ -16,4 +16,5 @@ class Recipe < ActiveRecord::Base
   belongs_to :event
   validates :event_id, :title, :description, :presence => true
 
+  paginates_per 10
 end
