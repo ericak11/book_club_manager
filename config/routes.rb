@@ -13,5 +13,5 @@ Rails.application.routes.draw do
       resources :responses
     end
     resources :partners
-    resources :recipes
+    resources :recipes, except: [:show]
 end
