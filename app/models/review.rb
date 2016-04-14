@@ -14,4 +14,7 @@
 class Review < ActiveRecord::Base
   belongs_to :user
   belongs_to :book
+
+  validates :content, :rating, presence: true
+
 end
