@@ -117,7 +117,11 @@ class EventsController < ApplicationController
       unless @book_params.delete_if {|k,v| v.empty?}.empty?
         @book ||= Book.new()
         @send_new_book_email = !@book.id?
-        @book_params.merge!({skip_date_validation: true})
+        if  @event.date.nil?
+          @book_params.merge!({skip_date_validation: true})
+        else
+          @book_params.merge!({book_club_date: @event.date})
+        end
         response = @book.update(@book_params)
         @event_params.merge!({book_id: @book.id}) if @book.present?
       end
