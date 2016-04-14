@@ -20,7 +20,7 @@
       = link_to 'Send Reminder Email', send_event_email_event_path(@event), class: "btn btn-info" unless Date.parse(@event.date).past?
 - if @event.book.present?
   .container
-    %h3 Book information
+    %h3 Book Information
     %hr
     - if @event.book.image.present?
       = image_tag(@event.book.image, height:"155px", style:'float:left;margin-right:10px;')
@@ -29,8 +29,18 @@
     %p= "Published: "+Date.parse(@event.book.publish_date).strftime("%A %b %d, %Y") if @event.book.publish_date.present?
     %p= "Description: "+ @event.book.description if @event.book.description.present?
   %br
+  - if Date.parse(@event.date).past?
+    .container
+      %h3.display_inline Book Reviews
+      = link_to 'Review Book', new_book_review_path(@book), class: "btn btn-info" if current_user.member? && @book.has_not_reviewed(current_user)
+      %h4
+        Average Rating:
+        = @book.average_rating
+      %hr
+      = render "reviews/review_list" if @book.reviews.any?
+
 .container
-  %h3 Recipes
+  %h3.display_inline  Recipes
   - if @event.my_event?(current_user.partner_id)
     = link_to 'Add Recipe', new_recipe_path(event_id:@event.id), class: "btn btn-success"
   %hr
@@ -39,7 +49,7 @@
     = render "recipes/recipe_table", event_list: true
 .container
   - if current_user.member?
-    %h3 RSVPs
+    %h3.display_inline  RSVPs
     - unless @event.responses.collect(&:user_id).include?(current_user.id) || Date.parse(@event.date).past?
       = link_to 'Click to RSVP', new_event_response_path(@event), class: "btn btn-info" if current_user.member
     %hr
@@ -53,9 +63,24 @@
           - @event.responses.each do |response|
             %tr
               %td= response.user.full_name
-              %td #{response.status} #{response.comment}
+              %td
+                - if response.status == "Yes!"
+                  %span.glyphicon.glyphicon-ok.green{style: 'color:green'}
+                - elsif response.status == "No."
+                  %span.glyphicon.glyphicon-remove{style: 'color:red'}
+                - else
+                  %span.glyphicon.glyphicon-question-sign{style: 'color:orange'}
+                = response.status
+                = response.comment
               - if response.user_id == current_user.id
                 %td= link_to 'Edit RSVP', edit_event_response_path(@event.id, response.id), class: "btn btn-success btn-xs" unless Date.parse(@event.date).past?
+          - @event.has_not_responded.each do |user|
+            %tr.no_response
+              %td= user.full_name
+              %td
+                %span.glyphicon.glyphicon-ban-circle{style: 'color:#9C9C9C'}
+                No Response
+
     %div.col-md-2
     %div.col-md-4
       %table.table.table-hover.table-responsive.table-bordered
@@ -69,5 +94,5 @@
             %td.success= @event.responses.where(status: "Yes!").count
             %td.danger= @event.responses.where(status: "No.").count
             %td.warning= @event.responses.where(status: "Maybe?").count
-            %td.info= User.members.count - @event.responses.count
+            %td.info= @event.has_not_responded.count
 

@@ -24,6 +24,7 @@
             %td
               %span{:style => 'float:left;margin-right:4px;'}= image_tag(book.image, height: "100px") if book.image.present?
               = book.description
+            %td= link_to 'Reviews', book_reviews_path(book), class: "btn btn-info btn-sm"
             - if current_user.member?
               %td= link_to 'Edit', edit_book_path(book), class: "btn btn-success btn-sm"
   .div{:style => 'text-align:center;'}

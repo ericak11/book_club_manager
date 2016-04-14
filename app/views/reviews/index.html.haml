@@ -1,0 +1,10 @@
+%h1
+  Reviews for
+  = @book.title
+%h3
+  Average Rating:
+  = @book.average_rating
+= render "review_list"
+%br
+
+= link_to 'Review Book', new_book_review_path(@book), class: "btn btn-info" if current_user.member? && @book.has_not_reviewed(current_user)

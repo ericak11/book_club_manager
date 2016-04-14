@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id                 :integer          not null, primary key
+#  first_name         :string
+#  last_name          :string
+#  email              :string
+#  phone_number       :string
+#  encrypted_password :string(128)      not null
+#  confirmation_token :string(128)
+#  remember_token     :string(128)      not null
+#  created_at         :datetime
+#  updated_at         :datetime
+#  admin              :boolean
+#  member             :boolean
+#
+
 class UsersController < Clearance::UsersController
   before_action :is_admin, only: [:index, :show, :update, :destroy]
   before_action :set_user, only: [:edit, :update, :destroy]

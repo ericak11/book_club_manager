@@ -8,6 +8,7 @@
 #  user_id    :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  rating     :integer
 #
 
 class Review < ActiveRecord::Base

@@ -39,4 +39,9 @@ class Event < ActiveRecord::Base
     changes.delete("partner_id")
     EventNotifier.send_event_update_email(self, changes).deliver_now unless changes.empty?
   end
+
+  def has_not_responded
+    responded_users = self.responses.collect(&:user_id)
+    User.members.where("id NOT IN (?)", responded_users)
+  end
 end
