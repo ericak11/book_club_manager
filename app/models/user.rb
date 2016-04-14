@@ -13,6 +13,7 @@
 #  created_at         :datetime
 #  updated_at         :datetime
 #  admin              :boolean
+#  member             :boolean
 #
 
 class User < ActiveRecord::Base

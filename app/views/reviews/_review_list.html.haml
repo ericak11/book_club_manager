@@ -1,0 +1,25 @@
+- @reviews = @reviews.present? ? @reviews : @book.reviews
+%table.table.table-hover.table-responsive
+  %thead
+    %tr
+      %th Reviewer
+      %th Content
+      %th Rating
+      %th
+
+  %tbody
+    - @reviews.each do |review|
+      %tr
+        %td= review.user.first_name
+        %td= review.content
+        %td
+          - review.rating.times do
+            %span ★
+        - if review.user == current_user
+          %td
+            = link_to 'Edit', edit_book_review_path(@book, review), class: "btn btn-success"
+            = link_to 'Destroy', book_review_path(@book, review), :method => :delete, :data => { :confirm => 'Are you sure?' }, class: "btn btn-danger btn-sm"
+
+%br
+
+

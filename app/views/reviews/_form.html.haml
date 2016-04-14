@@ -1,0 +1,43 @@
+%div.col-sm-8
+  = bootstrap_form_for [ @book, @review ] , layout: :horizontal, label_col: "col-sm-4", control_col: "col-sm-7" do |f|
+    = f.alert_message "Please fix the errors below."
+    = f.text_area :content
+    = f.form_group :rating, label: { text: "Rating" } do
+      %div#rate.rating
+        / FIFTH STAR
+        %input#star_5{:name => "review[rating]", :type => "radio", :value => "5"}/
+        %label.star{:for => "star_5", :title => "Five Stars", :id => 5} ★
+        / FOURTH STAR
+        %input#star_4{:name => "review[rating]", :type => "radio", :value => "4"}/
+        %label.star{:for => "star_4", :title => "Four Stars", :id => 4} ★
+        / THIRD STAR
+        %input#star_3{:name => "review[rating]", :type => "radio", :value => "3"}/
+        %label.star{:for => "star_3", :title => "Three Stars", :id => 3} ★
+        / SECOND STAR
+        %input#star_2{:name => "review[rating]", :type => "radio", :value => "2"}/
+        %label.star{:for => "star_2", :title => "Two Stars", :id => 2} ★
+        / FIRST STAR
+        %input#star_1{:name => "review[rating]", :type => "radio", :value => "1"}/
+        %label.star{:for => "star_1", :title => "One Star", :id=> 1} ★
+        %p#star_text{style: 'display:none'}
+    .actions.float-right
+      = f.submit 'Save', class: "btn btn-success btn-lg"
+%br
+%br
+:javascript
+   window.addEventListener("load", function(){
+     $('.star').on('click', function(){
+       $('#star_text').show()
+       $('#star_text').html(this.title)
+       if(this.id < 3) {
+          $('#star_text').removeClass("bg-success bg-warning")
+          $('#star_text').addClass("bg-danger")
+       } else if(this.id > 3) {
+          $('#star_text').removeClass("bg-danger bg-warning")
+          $('#star_text').addClass("bg-success")
+       } else {
+          $('#star_text').removeClass("bg-success bg-danger")
+          $('#star_text').addClass("bg-warning")
+       }
+     });
+   });

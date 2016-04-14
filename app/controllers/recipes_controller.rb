@@ -1,3 +1,17 @@
+# == Schema Information
+#
+# Table name: recipes
+#
+#  id          :integer          not null, primary key
+#  event_id    :integer
+#  link        :string
+#  title       :string
+#  description :string
+#  image       :string
+#  created_at  :datetime
+#  updated_at  :datetime
+#
+
 class RecipesController < ApplicationController
   before_action :set_recipe, only: [ :edit, :update, :destroy]
   before_action :set_event, only: [:new, :edit,  :create, :update]
