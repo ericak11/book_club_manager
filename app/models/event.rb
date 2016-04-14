@@ -28,7 +28,7 @@ class Event < ActiveRecord::Base
   paginates_per 10
 
   def self.next_event
-    Event.where('date <= ?', Date.today).order(:date).last
+    Event.where('date <= ?', Date.today).order(:date).first
   end
   def my_event?(partner_id)
     self.partner_id == partner_id
