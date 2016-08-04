@@ -1,4 +1,4 @@
-# Tix Tracker
+# Book Club Manager
 
 An app for managing a book club. Allows tracking of events, recipes, and keeps track of books read. 
 
@@ -6,7 +6,7 @@ Feel free to create an account and check it out for yourself [Book Club Manager]
 
 ## Technologies Used
 * Ruby - 2.3.0
-* Rails - 5.0.0
+* Rails - 4.2.6
 * Bootstrap
 
 ## Future Features
